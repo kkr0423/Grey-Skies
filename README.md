@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Grey Skies — Looks
 
-## Getting Started
+Phase 2 of Grey Skies: a personal archive of looks
+(Next.js + Supabase + Cloudinary + Vercel).
 
-First, run the development server:
+Spec lives in `../Grey Skies Requirements/` (`requirements.md`,
+`grey-skies-overview.md`, `schema.sql`). This repo implements **M1**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The UI is styled with Tailwind (overcast grey palette, Bricolage Grotesque,
+light/dark via `prefers-color-scheme`; tokens live in `src/app/globals.css`).
+There is no animation yet: GSAP and motion are deferred to M2.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## M1 scope
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| #    | Feature                                                                       |
+| ---- | ----------------------------------------------------------------------------- |
+| F-01 | Email + password signup/login, email confirmation required                    |
+| F-02 | `profiles` row created on first login                                         |
+| F-03 | Post a look: one image + worn-on date + optional caption (private by default) |
+| F-04 | `/archive`: your own looks                                                    |
+| F-05 | Log out                                                                       |
+| F-06 | Deploy to Vercel                                                              |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Tables used: `profiles`, `looks`, `look_images` (`supabase/schema.sql` is the
+full spec schema, including M3/M4 tables).
 
-## Learn More
+Images go to Cloudinary through a server action as `type: authenticated`.
+Only `public_id` / `version` / `width` / `height` are stored; delivery URLs
+are signed and built at render time (`src/lib/images.ts`) with `f_auto,q_auto`
+and `srcset`, so thumbnails never receive the original.
 
-To learn more about Next.js, take a look at the following resources:
+## Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a Supabase project and run `supabase/schema.sql` in the SQL Editor.
+2. Auth settings: keep "Confirm email" enabled. Enable a Spend Cap.
+3. Create a Cloudinary account (no preset needed).
+4. `cp .env.local.example .env.local` and fill in the values.
+5. `npm install && npm run dev`
+6. For local sign-up, add `http://localhost:3000/auth/callback` to Supabase
+   Auth → URL Configuration → Redirect URLs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`supabase/schema.sql` is not re-runnable. If it fails partway, drop the
+tables (`look_tags, tags, hypes, reports, look_images, looks, profiles`) and
+`public.bump_hype_count()` with `cascade`, then run it again.
 
-## Deploy on Vercel
+## Deploy (F-06)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Set the five env vars from `.env.local.example` in Vercel. Add the Vercel URL
+to Supabase Auth → URL Configuration (Site URL and Redirect URLs, including
+`/auth/callback`), or confirmation links will fail.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Known limits
+
+- Cloudinary `sign_url` prevents tampering but URLs never expire. Accepted for
+  M1–M2; revisit before M3 (requirements §5.3).
+- RLS mistakes are invisible in the UI. The two-account manual check (F-10) is
+  required before making anything public.
