@@ -12,11 +12,8 @@ export default function Home() {
         A quiet archive of what you wore, kept by date.
       </p>
       <nav className="mt-8 flex gap-3">
-        <Link href="/signup" className="btn">
-          Sign up
-        </Link>
-        <Link href="/login" className="btn-quiet inline-flex items-center">
-          Log in
+        <Link href="/login" className="btn">
+          Continue with Google
         </Link>
       </nav>
     </main>

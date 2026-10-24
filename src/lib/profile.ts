@@ -9,9 +9,12 @@ export async function ensureProfile(supabase: SupabaseClient, user: User) {
     .maybeSingle();
   if (existing) return;
 
-  const base =
-    (user.user_metadata?.username as string | undefined)?.trim() ||
-    user.id.slice(0, 8);
+  // Google gives no username; derive one from the email local part.
+  const fromEmail = user.email
+    ?.split("@")[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, "");
+  const base = fromEmail || user.id.slice(0, 8);
 
   // username is unique; retry once with a suffix if it is taken.
   for (const username of [base, `${base}-${user.id.slice(0, 4)}`]) {

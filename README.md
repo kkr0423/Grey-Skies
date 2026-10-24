@@ -14,7 +14,7 @@ There is no animation yet: GSAP and motion are deferred to M2.
 
 | #    | Feature                                                                       |
 | ---- | ----------------------------------------------------------------------------- |
-| F-01 | Email + password signup/login, email confirmation required                    |
+| F-01 | Google login (Supabase OAuth); profile created on first login                |
 | F-02 | `profiles` row created on first login                                         |
 | F-03 | Post a look: one image + worn-on date + optional caption (private by default) |
 | F-04 | `/archive`: your own looks                                                    |
@@ -32,7 +32,9 @@ and `srcset`, so thumbnails never receive the original.
 ## Setup
 
 1. Create a Supabase project and run `supabase/schema.sql` in the SQL Editor.
-2. Auth settings: keep "Confirm email" enabled. Enable a Spend Cap.
+2. Auth → Providers → Google: enable it and paste the OAuth client ID/secret
+   from Google Cloud Console (authorized redirect URI:
+   `https://<project>.supabase.co/auth/v1/callback`). Enable a Spend Cap.
 3. Create a Cloudinary account (no preset needed).
 4. `cp .env.local.example .env.local` and fill in the values.
 5. `npm install && npm run dev`

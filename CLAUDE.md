@@ -12,7 +12,7 @@ Condensed from `../Grey Skies Requirements/` (`requirements.md` v0.4, `grey-skie
 
 ## Scope (work in order; don't start a milestone before the previous one is done)
 
-- **M1 (current):** F-01 email+password signup/login with email confirmation; F-02 `profiles` row on first login; F-03 post a look (one image + worn-on date + optional caption); F-04 `/archive` of own looks; F-05 logout; F-06 Vercel deploy. Tables: `profiles`, `looks`, `look_images`.
+- **M1 (current):** F-01 Google login via Supabase OAuth; F-02 `profiles` row on first login; F-03 post a look (one image + worn-on date + optional caption); F-04 `/archive` of own looks; F-05 logout; F-06 Vercel deploy. Tables: `profiles`, `looks`, `look_images`.
 - **M2:** F-07 multiple images (1–5 per look); F-08 edit/delete (owner only); F-09 resized image delivery; F-10 manual RLS check with two accounts (mandatory); F-11 motion.
 - **M3:** F-12 per-look public/private (default **private**); F-13 public look detail page (SSR/ISR); F-14 public feed (newest first); F-15 reports (emailed to operator); F-16 terms and privacy policy; F-17 error monitoring (Sentry etc.). UGC prerequisites: age-limit policy, takedown rights in the terms, handling of third parties in photos.
 - **M4+ (not now):** hype/likes, tags, public profiles, OGP/sitemap, follow/comments/notifications/DM, native apps.
