@@ -1,24 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --fog: #e3e6e8;
-  --cloud: #f1f2f3;
-  --ink: #1c2227;
-  --slate: #59656e;
-  --rain: #34536f;
-  --line: #c3c9ce;
-  --danger: #9b2c2c;
+  /* Monochrome only: overcast greys, no hue. --slate keeps >= 4.5:1
+     contrast on --fog for body-size text. */
+  --fog: #e8e8e8;
+  --cloud: #f2f2f2;
+  --ink: #111111;
+  --slate: #5c5c5c;
+  --line: #c4c4c4;
+  /* Errors stay in ink; role="alert" and the wording carry the meaning. */
+  --danger: var(--ink);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --fog: #12161a;
-    --cloud: #1a1f24;
-    --ink: #e6e9eb;
-    --slate: #97a3ac;
-    --rain: #8fb0cf;
-    --line: #2c343b;
-    --danger: #f0a0a0;
+    --fog: #111111;
+    --cloud: #1a1a1a;
+    --ink: #e8e8e8;
+    --slate: #9c9c9c;
+    --line: #2e2e2e;
   }
 }
 
@@ -27,7 +27,6 @@
   --color-cloud: var(--cloud);
   --color-ink: var(--ink);
   --color-slate: var(--slate);
-  --color-rain: var(--rain);
   --color-line: var(--line);
   --color-danger: var(--danger);
   --font-sans: var(--font-bricolage);
@@ -40,7 +39,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--rain);
+  outline: 1px solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -55,9 +54,9 @@ body {
     color: var(--slate);
   }
   .field input {
-    background: var(--cloud);
+    background: transparent;
     border: 1px solid var(--line);
-    border-radius: 0.375rem;
+    border-radius: 0;
     padding: 0.625rem 0.75rem;
     font: inherit;
     color: var(--ink);
@@ -65,13 +64,33 @@ body {
   .field input[type="file"] {
     padding: 0.5rem;
   }
+  .field input:focus {
+    border-color: var(--ink);
+  }
   .btn {
-    background: var(--rain);
+    background: var(--ink);
     color: var(--fog);
-    border-radius: 0.375rem;
-    padding: 0.625rem 1.25rem;
-    font-weight: 500;
+    border: 1px solid var(--ink);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     cursor: pointer;
+  }
+  .btn,
+  .btn-quiet,
+  .link,
+  .nav-link {
+    transition-property: color, background-color, border-color, opacity;
+    transition-duration: var(--dur-micro);
+    transition-timing-function: var(--ease-standard);
+  }
+  .btn:hover {
+    opacity: 0.8;
+  }
+  .nav-link:hover {
+    color: var(--ink);
   }
   .btn:disabled {
     opacity: 0.6;
@@ -80,17 +99,112 @@ body {
   .btn-quiet {
     border: 1px solid var(--line);
     color: var(--ink);
-    border-radius: 0.375rem;
     padding: 0.5rem 1rem;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     cursor: pointer;
   }
   .btn-quiet:hover {
-    border-color: var(--slate);
+    border-color: var(--ink);
   }
   .link {
-    color: var(--rain);
+    color: var(--ink);
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     text-underline-offset: 3px;
+  }
+  .link:hover {
+    color: var(--slate);
+  }
+  /* Small uppercase label: wordmark, dates, kickers. */
+  .label {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  /* Journal images are shown in black and white. */
+  .mono {
+    filter: grayscale(1);
+  }
+}
+
+/* Journal article body (Markdown rendered to HTML). */
+.article-body {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.article-body > * + * {
+  margin-top: 1.25em;
+}
+.article-body h2 {
+  margin-top: 2.5em;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+.article-body h3 {
+  margin-top: 2em;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.article-body a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.article-body a:hover {
+  color: var(--slate);
+}
+.article-body blockquote {
+  border-left: 1px solid var(--ink);
+  padding-left: 1.25rem;
+  font-size: 1.375rem;
+  line-height: 1.5;
+}
+.article-body ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.article-body ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.article-body hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 3em 0;
+}
+.article-body img {
+  filter: grayscale(1);
+  width: 100%;
+  height: auto;
+  background: var(--cloud);
+}
+.article-body figcaption,
+.article-body small {
+  font-size: 0.875rem;
+  color: var(--slate);
+}
+
+.article-body a {
+  transition: color var(--dur-micro) var(--ease-standard);
+}
+
+/* Motion start states. Hidden only when JS is running (html.js, set by an
+   inline script before first paint) and reduced motion is not requested.
+   GSAP takes over from here: src/components/motion/. Animate only
+   transform and opacity. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal],
+  .js [data-reveal-group] > *,
+  .js .article-body[data-motion] > :is(blockquote, hr, p:has(> img)) {
+    opacity: 0;
+    transform: translateY(var(--shift-y));
+  }
+  .js .article-body[data-motion] > h2 {
+    opacity: 0;
   }
 }

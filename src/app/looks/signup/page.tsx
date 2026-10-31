@@ -86,7 +86,7 @@ export default function SignupPage() {
         </button>
       </form>
       <p className="mt-8 text-sm text-slate">
-        Already have an account? <Link href="/login" className="link">Log in</Link>
+        Already have an account? <Link href="/looks/login" className="link">Log in</Link>
       </p>
     </main>
   );

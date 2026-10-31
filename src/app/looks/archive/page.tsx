@@ -20,7 +20,7 @@ export default async function ArchivePage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/looks/login");
   }
 
   await ensureProfile(supabase, user);
@@ -73,7 +73,7 @@ export default async function ArchivePage() {
                   height={look.image.height ?? undefined}
                   alt={look.caption ?? `Look worn on ${look.worn_on}`}
                   loading="lazy"
-                  className="h-auto w-full rounded-sm bg-cloud"
+                  className="h-auto w-full bg-cloud"
                 />
               )}
               <p className="mt-3 text-lg font-light">{formatDate(look.worn_on)}</p>

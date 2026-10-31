@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_PREFIXES = ["/archive"];
+const PROTECTED_PREFIXES = ["/looks/archive"];
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -40,7 +40,7 @@ export async function updateSession(request: NextRequest) {
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/looks/login";
     return NextResponse.redirect(url);
   }
 

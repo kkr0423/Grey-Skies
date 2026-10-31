@@ -5,8 +5,8 @@ export async function proxy(request: NextRequest) {
   return updateSession(request);
 }
 
+// Only Looks needs a Supabase session. Journal pages stay static and skip
+// the auth round-trip.
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/looks/:path*", "/auth/:path*"],
 };

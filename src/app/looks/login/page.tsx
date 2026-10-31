@@ -29,7 +29,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/archive");
+    router.push("/looks/archive");
     router.refresh();
   }
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
         </button>
       </form>
       <p className="mt-8 text-sm text-slate">
-        No account? <Link href="/signup" className="link">Sign up</Link>
+        No account? <Link href="/looks/signup" className="link">Sign up</Link>
       </p>
     </main>
   );

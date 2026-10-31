@@ -5,7 +5,7 @@ import { ensureProfile } from "@/lib/profile";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/archive";
+  const next = searchParams.get("next") ?? "/looks/archive";
 
   if (code) {
     const supabase = await createClient();
@@ -18,5 +18,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`);
+  return NextResponse.redirect(`${origin}/looks/login?error=auth_callback_failed`);
 }

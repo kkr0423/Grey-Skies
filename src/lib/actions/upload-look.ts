@@ -97,6 +97,6 @@ export async function uploadLook(
     return { error: imageError.message };
   }
 
-  revalidatePath("/archive");
+  revalidatePath("/looks/archive");
   return { error: null };
 }

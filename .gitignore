@@ -41,3 +41,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated from content/images/ (scripts/copy-journal-images.mjs)
+/public/journal-images
