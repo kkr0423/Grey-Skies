@@ -1,6 +1,6 @@
 # Grey Skies — Looks
 
-Phase 2 of Grey Skies: a personal archive of looks
+The app side of Grey Skies: a personal archive of looks
 (Next.js + Supabase + Cloudinary + Vercel).
 
 Spec lives in `../Grey Skies Requirements/` (`requirements.md`,
@@ -14,7 +14,7 @@ There is no animation yet: GSAP and motion are deferred to M2.
 
 | #    | Feature                                                                       |
 | ---- | ----------------------------------------------------------------------------- |
-| F-01 | Google login (Supabase OAuth); profile created on first login                |
+| F-01 | Google login (Supabase OAuth)                                                 |
 | F-02 | `profiles` row created on first login                                         |
 | F-03 | Post a look: one image + worn-on date + optional caption (private by default) |
 | F-04 | `/archive`: your own looks                                                    |
@@ -38,7 +38,7 @@ and `srcset`, so thumbnails never receive the original.
 3. Create a Cloudinary account (no preset needed).
 4. `cp .env.local.example .env.local` and fill in the values.
 5. `npm install && npm run dev`
-6. For local sign-up, add `http://localhost:3000/auth/callback` to Supabase
+6. For local login, add `http://localhost:3000/auth/callback` to Supabase
    Auth → URL Configuration → Redirect URLs.
 
 `supabase/schema.sql` is not re-runnable. If it fails partway, drop the
@@ -49,7 +49,7 @@ tables (`look_tags, tags, hypes, reports, look_images, looks, profiles`) and
 
 Set the five env vars from `.env.local.example` in Vercel. Add the Vercel URL
 to Supabase Auth → URL Configuration (Site URL and Redirect URLs, including
-`/auth/callback`), or confirmation links will fail.
+`/auth/callback`), or the OAuth redirect back to the app will fail.
 
 ## Known limits
 

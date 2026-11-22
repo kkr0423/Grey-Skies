@@ -5,7 +5,12 @@ import { ensureProfile } from "@/lib/profile";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/archive";
+  // Only allow same-origin relative paths (blocks "@evil.com", "//evil.com").
+  const rawNext = searchParams.get("next") ?? "";
+  const next =
+    rawNext.startsWith("/") && !rawNext.startsWith("//") && !rawNext.includes("\\")
+      ? rawNext
+      : "/archive";
 
   if (code) {
     const supabase = await createClient();
